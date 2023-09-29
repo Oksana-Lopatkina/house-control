@@ -1,0 +1,6 @@
+# Editor directories and files
+.vscode
+.idea
+
+/*/node_modules
+/be/data/*
