@@ -32,7 +32,7 @@ const INIT_FILTER = {
   hasVoted: false,
 };
 
-const totalSpace = 32000;
+const totalSpace = 30078;
 
 const props = defineProps<IVotingTableProps>();
 
@@ -47,6 +47,7 @@ const selectedFilter = computed<string>(() => {
   });
   return filterWithValue?.[0];
 });
+
 const filteredVoting = computed(() => {
   return votingStore.voting.filter((vote) => {
     const hasVotedFilterValue = filter.value.hasVoted ? vote.hasVoted === filter.value.hasVoted : true;
@@ -93,6 +94,12 @@ watchEffect(async () => {
 watch(() => filter.value, (newFilter, oldFilter) => {
   console.log('[watch filter] newFilter: ', newFilter);
   console.log('[watch filter] oldFilter: ', oldFilter);
+});
+
+// on change voting
+watch(() => props.voteId, async (newVoteId, oldVoteId) => {
+  console.log('[watch - props.voteId] newVoteId, oldVoteId: ', newVoteId, oldVoteId);
+  await votingStore.getVoteData(newVoteId);
 });
 const onVotedStatusChanged = (vote: IVote) => {
   console.log('[onVotedStatusChanged] vote: ', vote);

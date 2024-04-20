@@ -2,18 +2,18 @@ import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 
 interface IAccount {
-  room_number: string;
+  roomNumber: string;
   porch: number;
   floor: number;
   space: number;
-  cadastral_number: string;
-  date_statement: string;
+  cadastralNumber: string;
+  dateStatement: string;
   owner: string;
-  date_ownership: string;
-  is_property_common: boolean;
+  dateOwnership: string;
+  isPropertyCommon: boolean;
   note: string;
-  telegram_account: string;
-  phone_number: number;
+  telegram: string;
+  phoneNumber: number;
 }
 
 export const useAccountsStore = defineStore('accountsStore', () => {

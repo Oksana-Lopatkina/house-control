@@ -4,15 +4,32 @@ const ObjectId = require('mongodb').ObjectId;
 const DB_NAME = 'pzdb';
 
 exports.getAccounts = async (req, res) => {
-  const collectionName = req._parsedUrl.path.substring(1);
-  const collection = mongoClient.db(DB_NAME).collection(collectionName);
-  const accounts = await collection.find({}).toArray();
+  // const collectionName = req._parsedUrl.path.substring(1);
+  const collectionName = 'rooms';
+  const accounts = [];
+  const accountsCursor = mongoClient.db(DB_NAME).collection('rooms').aggregate( [
+    {
+      $lookup:
+        {
+          from: "owners",
+          localField: "cadastralNumber",
+          foreignField: "cadastralNumber",
+          as: "owners"
+        }
+    }
+  ] );
+  // const accounts = await collection.find({}).toArray();
+  for await (const acc of accountsCursor) {
+    console.log('[getAccounts] acc: ', acc);
+    accounts.push(acc);
+  }
   res.send(accounts);
 }
 
 exports.getVoting = async (req, res) => {
   const collection = mongoClient.db(DB_NAME).collection(req.params.voteId);
   const voting = await collection.find({}).toArray();
+  console.log('[getAccounts] voting: ', voting);
   res.send(voting);
 }
 
